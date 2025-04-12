@@ -10,15 +10,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.dumanyusuf.chattapp.domain.model.Users
 import com.dumanyusuf.chattapp.presenatation.home_page.HomeScrean
 import com.dumanyusuf.chattapp.presenatation.sign_up.SiginPage
 import com.dumanyusuf.chattapp.presenatation.sign_up.SignupPage
 import com.dumanyusuf.chattapp.util.ui.theme.ChattAppTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLDecoder
 
 
 @AndroidEntryPoint
@@ -58,7 +63,7 @@ fun PageController() {
             SiginPage(navController = controller)
         }
         composable(Screan.HomePage.route){
-            HomeScrean()
+            HomeScrean(navController = controller)
         }
 
     }

@@ -63,4 +63,13 @@ class AuthRepoImpl @Inject constructor(
             Resource.Error("Hata cıktı:${e.localizedMessage}")
         }
     }
+
+    override fun logOut() {
+        try {
+            auth.signOut()
+        }
+        catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
 }

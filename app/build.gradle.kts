@@ -76,7 +76,13 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // gson
-    implementation ("com.google.code.gson:gson:2.12.1")
+    implementation (libs.gson)
     // coil
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+    implementation ("com.google.code.gson:gson:2.13.0")
+
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+
 }

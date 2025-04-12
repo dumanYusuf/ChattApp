@@ -8,5 +8,6 @@ interface AuthRepo {
 
     suspend fun signUp(userName:String,userMail:String,passWord:String):Resource<Users>
     suspend fun sigin(userMail: String,passWord: String):Resource<Users>
+    fun logOut()
 
 }

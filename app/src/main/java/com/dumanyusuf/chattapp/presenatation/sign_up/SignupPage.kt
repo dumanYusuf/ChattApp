@@ -35,6 +35,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dumanyusuf.chattapp.R
 import com.dumanyusuf.chattapp.Screan
+import com.dumanyusuf.chattapp.domain.model.Users
+import com.google.firebase.Timestamp
+import com.google.gson.Gson
+import java.net.URLEncoder
 
 @Composable
 fun SignupPage(
@@ -61,6 +65,7 @@ fun SignupPage(
             }
         }
     }
+
 
     Box(
         modifier = Modifier
