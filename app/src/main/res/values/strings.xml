@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ChattApp</string>
+    <string name="welcome_text">ChatApp\'e Hoşgeldiniz</string>
+    <string name="enter_name">Adınızı Giriniz</string>
+    <string name="enter_email">Mail Adresinizi Giriniz</string>
+    <string name="enter_password">Şifrenizi Giriniz</string>
+    <string name="confirm_password">Şifrenizi Tekrar Giriniz</string>
+    <string name="signup">Kayıt Ol</string>
+    <string name="dont_have_account">Hesabınız yok mu?</string>
+    <string name="already_have_account">Zaten hesabın var mı?</string>
+    <string name="login">Giriş Yap</string>
+</resources>
