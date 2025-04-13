@@ -23,11 +23,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dumanyusuf.chattapp.R
 import com.dumanyusuf.chattapp.Screan
 import com.dumanyusuf.chattapp.domain.model.Users
+import com.google.gson.Gson
+import java.net.URLEncoder
 
 
 @Composable
@@ -85,7 +88,9 @@ fun HomeScrean(
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.userList) { user ->
                     UserItem(user = user) {
-
+                        val usersObject = Gson().toJson(user)
+                        val encodedUsersObject = URLEncoder.encode(usersObject, "UTF-8")
+                        navController.navigate(Screan.ChattPage.route+"/$encodedUsersObject")
                     }
                 }
             }
@@ -109,7 +114,9 @@ fun UserItem(user: Users, onClick: () -> Unit) {
             modifier = Modifier.padding(end = 8.dp)
         )
         Column {
-            Text(text = user.userName ?: "Bilinmeyen", style = MaterialTheme.typography.titleMedium)
+            Text(
+                fontSize = 20.sp,
+                text = user.userName ?: "Bilinmeyen", style = MaterialTheme.typography.titleMedium)
             Text(text = user.userMail ?: "", style = MaterialTheme.typography.bodySmall)
         }
     }

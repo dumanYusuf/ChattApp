@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dumanyusuf.chattapp.domain.model.Users
+import com.dumanyusuf.chattapp.presenatation.chatt_page.ChattPage
 import com.dumanyusuf.chattapp.presenatation.home_page.HomeScrean
 import com.dumanyusuf.chattapp.presenatation.person_page.PersonPage
 import com.dumanyusuf.chattapp.presenatation.sign_up.SiginPage
@@ -68,6 +69,16 @@ fun PageController() {
         }
         composable(route = Screan.PersonPage.route) {
             PersonPage(navController = controller)
+        }
+        composable(Screan.ChattPage.route+"/{users}",
+            arguments = listOf(
+                navArgument("users"){type= NavType.StringType}
+            )
+        ){
+            val jsonUser = it.arguments?.getString("users")
+            val decodedJsonUser = URLDecoder.decode(jsonUser, "UTF-8")
+            val user = Gson().fromJson(decodedJsonUser, Users::class.java)
+            ChattPage(navController = controller, users = user)
         }
 
 
