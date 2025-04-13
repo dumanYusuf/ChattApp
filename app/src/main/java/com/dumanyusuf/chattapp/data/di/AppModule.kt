@@ -1,7 +1,9 @@
 package com.dumanyusuf.chattapp.data.di
 
 import com.dumanyusuf.chattapp.data.repo.AuthRepoImpl
+import com.dumanyusuf.chattapp.data.repo.FirebaseRepoImpl
 import com.dumanyusuf.chattapp.domain.repo.AuthRepo
+import com.dumanyusuf.chattapp.domain.repo.FirebaseRepo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -31,5 +33,10 @@ object AppModule {
         return AuthRepoImpl(auth, firestore)
     }
 
+    @Singleton
+    @Provides
+    fun repoProvideFirebase(firestore: FirebaseFirestore):FirebaseRepo{
+        return FirebaseRepoImpl(firestore)
+    }
 
     }
