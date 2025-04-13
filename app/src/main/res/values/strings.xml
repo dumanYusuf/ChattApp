@@ -9,4 +9,7 @@
     <string name="dont_have_account">Hesabınız yok mu?</string>
     <string name="already_have_account">Zaten hesabın var mı?</string>
     <string name="login">Giriş Yap</string>
+    <string name="chattApp">Sohbet</string>
+    <string name="profil">Profil</string>
+    <string name="edit_profil">Profili Düzenle</string>
 </resources>

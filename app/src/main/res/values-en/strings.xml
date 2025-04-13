@@ -9,4 +9,7 @@
     <string name="dont_have_account">Dont have an account?</string>
     <string name="already_have_account">Already have an account?</string>
     <string name="login">Log In</string>
+    <string name="chattApp">ChattApp</string>
+    <string name="profil">Profile</string>
+    <string name="edit_profil">Edit Profile</string>
 </resources>

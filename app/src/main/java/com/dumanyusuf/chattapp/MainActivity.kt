@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dumanyusuf.chattapp.domain.model.Users
 import com.dumanyusuf.chattapp.presenatation.home_page.HomeScrean
+import com.dumanyusuf.chattapp.presenatation.person_page.PersonPage
 import com.dumanyusuf.chattapp.presenatation.sign_up.SiginPage
 import com.dumanyusuf.chattapp.presenatation.sign_up.SignupPage
 import com.dumanyusuf.chattapp.util.ui.theme.ChattAppTheme
@@ -53,7 +55,6 @@ fun PageController() {
     val curentUser=FirebaseAuth.getInstance().currentUser
 
     val controller= rememberNavController()
-
     NavHost(navController = controller, startDestination = if (curentUser!=null)Screan.HomePage.route else Screan.SignUpPage.route) {
 
         composable(Screan.SignUpPage.route){
@@ -65,6 +66,10 @@ fun PageController() {
         composable(Screan.HomePage.route){
             HomeScrean(navController = controller)
         }
+        composable(route = Screan.PersonPage.route) {
+            PersonPage(navController = controller)
+        }
+
 
     }
 
