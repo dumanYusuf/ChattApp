@@ -1,12 +1,16 @@
 package com.dumanyusuf.chattapp.presenatation.chatt_page
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -14,15 +18,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.dumanyusuf.chattapp.R
 import com.dumanyusuf.chattapp.domain.model.Users
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ChattPage(
     navController: NavController,
     users: Users
 ) {
     var message by remember { mutableStateOf("") }
+
+    LaunchedEffect(users.userProfilPage) {
+        println("👀 Profil fotoğraf URL: ${users.userProfilPage}")
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -39,11 +52,22 @@ fun ChattPage(
                     contentDescription = "Geri"
                 )
             }
-            Text(
-                text = users.userName,
-                fontSize = 20.sp,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Row (verticalAlignment = Alignment.CenterVertically){
+                Text(
+                    text = users.userName,
+                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                /*GlideImage(
+                    model = users.userProfilPage,
+                    contentDescription = "Profil Fotoğrafı",
+                    modifier = Modifier
+                        .size(70.dp)
+                        .padding(10.dp)
+                        .clip(CircleShape)
+                        .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                )*/
+            }
         }
 
         Spacer(modifier = Modifier.weight(1f))

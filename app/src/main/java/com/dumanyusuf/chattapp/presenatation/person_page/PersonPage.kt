@@ -1,84 +1,112 @@
 package com.dumanyusuf.chattapp.presenatation.person_page
 
-import androidx.compose.foundation.Image
+import android.Manifest
+import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.dumanyusuf.chattapp.R
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PersonPage(
     navController: NavController,
+    viewModel: PersonViewModel = hiltViewModel(),
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    val context = LocalContext.current
+    val profileImageUrl by viewModel.profileImageUrl.collectAsState()
+
+
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            viewModel.uploadProfileImage(it)
+        }
+    }
+
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            galleryLauncher.launch("image/*")
+        } else {
+            Toast.makeText(context, "Galeri izni gerekli!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    LaunchedEffect(Unit) {
+        viewModel.setProfileImageFromFirestore()
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {
-                // Geri tuşu
-                navController.popBackStack()
-            }) {
-                Icon(
-                    painter = painterResource(R.drawable.back),
-                    contentDescription = "Geri"
-                )
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(painter = painterResource(R.drawable.back), contentDescription = "Geri")
             }
-            Text(
-                text = stringResource(R.string.profil),
-                modifier = Modifier.padding(start = 16.dp)
-            )
+            Text(text = stringResource(R.string.profil), modifier = Modifier.padding(start = 16.dp))
         }
 
-        // Profil içeriği
+        // İçerik
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier
-                    .size(160.dp)
-                    .padding(bottom = 20.dp)
+                modifier = Modifier.size(170.dp).padding(bottom = 20.dp)
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(150.dp)
-                        .align(Alignment.Center)
-                        .clip(CircleShape)
-                        .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
-                    painter = painterResource(R.drawable.person),
-                    contentDescription = ""
-                )
+                if (!profileImageUrl.isNullOrEmpty()) {
+                    GlideImage(
+                        model = profileImageUrl,
+                        contentDescription = "Profil Fotoğrafı",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(170.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
+
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(R.drawable.person),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(150.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                            .align(Alignment.Center)
+                    )
+                }
 
                 IconButton(
                     onClick = {
-                        // Kamera açma işlemi
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                        } else {
+                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }
                     },
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -87,37 +115,18 @@ fun PersonPage(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.camera),
-                        contentDescription = ""
+                        contentDescription = "Fotoğraf Yükle"
                     )
                 }
             }
 
+            Text(text = "userName", style = MaterialTheme.typography.headlineMedium)
             Text(
-                text ="userName",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            Text(
-                text ="userMail",
+                text = "userMail",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                 modifier = Modifier.padding(bottom = 24.dp)
             )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                TextButton(onClick = {
-                    // Profil bilgilerini düzenleme
-                }) {
-                    Text(text = stringResource(R.string.edit_profil))
-                }
-            }
         }
     }
 }
-
