@@ -2,6 +2,8 @@ package com.dumanyusuf.chattapp.presenatation.chatt_page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -11,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,25 +33,17 @@ fun ChattPage(
     var message by remember { mutableStateOf("") }
     var chatId by remember { mutableStateOf<String?>(null) }
 
-
-    LaunchedEffect(users.userProfilPage) {
-        println("👀 Profil fotoğraf URL: ${users.userProfilPage}")
-    }
-
+    val chatListState=viewModel.chatList.collectAsState()
 
     LaunchedEffect(users.userId) {
-        val newChat = Chats(
-            senderId =viewModel.getCurentUserId(),
-            receiverId = users.userId,
-            createdAt = Timestamp.now()
-        )
-
-        viewModel.createChat(newChat) { createdChatId ->
+        val currentUserId = viewModel.getCurentUserId()
+        viewModel.getOrCreateChat(currentUserId, users.userId) { createdChatId ->
             chatId = createdChatId
+            if (chatId != null) {
+                viewModel.getMessage(chatId!!)
+            }
         }
     }
-
-
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -74,7 +69,41 @@ fun ChattPage(
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 8.dp)
+        ) {
+            items(chatListState.value.chatList) { msg ->
+                val isCurrentUser = msg.senderId == viewModel.getCurentUserId()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = if (isCurrentUser) Arrangement.End else Arrangement.Start
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                if (isCurrentUser) Color(0xFFD0F0C0) else Color(0xFFF0F0F0),
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(12.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                      Column {
+                          Text(text = msg.text, fontSize = 16.sp)
+                          Text(
+                              modifier = Modifier.align(Alignment.End),
+                              fontSize = 12.sp,
+                              color = Color.Gray,
+                              text = viewModel.formatMessageTime(msg.timestamp))
+                      }
+                    }
+                }
+            }
+        }
 
         Row(
             modifier = Modifier
