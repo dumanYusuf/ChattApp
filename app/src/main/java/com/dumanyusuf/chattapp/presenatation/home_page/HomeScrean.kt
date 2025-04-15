@@ -43,9 +43,10 @@ import java.net.URLEncoder
 @Composable
 fun HomeScrean(
     viewModel: HomeViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
 ) {
     val state = viewModel.stateUsers.value
+
 
     LaunchedEffect(Unit) {
         val currentUserId = viewModel.getCurrentUserId()
@@ -70,11 +71,6 @@ fun HomeScrean(
                 Icon(painter = painterResource(R.drawable.person), contentDescription = "Profil")
             }
 
-            IconButton(onClick = {
-                // Arama gelecekte eklenecek
-            }) {
-                Icon(painter = painterResource(R.drawable.search), contentDescription = "Ara")
-            }
         }
 
         if (state.isLoading) {

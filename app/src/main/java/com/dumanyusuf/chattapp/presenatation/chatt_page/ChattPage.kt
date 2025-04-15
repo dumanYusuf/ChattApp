@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -35,6 +36,8 @@ fun ChattPage(
 
     val chatListState=viewModel.chatList.collectAsState()
 
+    val listState= rememberLazyListState()
+
     LaunchedEffect(users.userId) {
         val currentUserId = viewModel.getCurentUserId()
         viewModel.getOrCreateChat(currentUserId, users.userId) { createdChatId ->
@@ -43,6 +46,10 @@ fun ChattPage(
                 viewModel.getMessage(chatId!!)
             }
         }
+    }
+
+    LaunchedEffect (chatListState.value.chatList.size){
+        listState.animateScrollToItem(chatListState.value.chatList.size)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -70,40 +77,51 @@ fun ChattPage(
         }
 
 
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 8.dp)
-        ) {
-            items(chatListState.value.chatList) { msg ->
-                val isCurrentUser = msg.senderId == viewModel.getCurentUserId()
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    horizontalArrangement = if (isCurrentUser) Arrangement.End else Arrangement.Start
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                if (isCurrentUser) Color(0xFFD0F0C0) else Color(0xFFF0F0F0),
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .padding(12.dp),
-                        contentAlignment = Alignment.BottomEnd
-                    ) {
-                      Column {
-                          Text(text = msg.text, fontSize = 16.sp)
-                          Text(
-                              modifier = Modifier.align(Alignment.End),
-                              fontSize = 12.sp,
-                              color = Color.Gray,
-                              text = viewModel.formatMessageTime(msg.timestamp))
-                      }
-                    }
-                }
-            }
-        }
+       if (chatListState.value.loading){
+           Box(
+               modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+               CircularProgressIndicator(
+                   color = Color.Red
+               )
+           }
+       }
+        else{
+           LazyColumn(
+               state = listState,
+               modifier = Modifier
+                   .weight(1f)
+                   .padding(horizontal = 8.dp)
+           ) {
+               items(chatListState.value.chatList) { msg ->
+                   val isCurrentUser = msg.senderId == viewModel.getCurentUserId()
+                   Row(
+                       modifier = Modifier
+                           .fillMaxWidth()
+                           .padding(vertical = 4.dp),
+                       horizontalArrangement = if (isCurrentUser) Arrangement.End else Arrangement.Start
+                   ) {
+                       Box(
+                           modifier = Modifier
+                               .background(
+                                   if (isCurrentUser) Color(0xFFD0F0C0) else Color(0xFFF0F0F0),
+                                   shape = RoundedCornerShape(12.dp)
+                               )
+                               .padding(12.dp),
+                           contentAlignment = Alignment.BottomEnd
+                       ) {
+                           Column {
+                               Text(text = msg.text, fontSize = 16.sp)
+                               Text(
+                                   modifier = Modifier.align(Alignment.End),
+                                   fontSize = 12.sp,
+                                   color = Color.Gray,
+                                   text = viewModel.formatMessageTime(msg.timestamp))
+                           }
+                       }
+                   }
+               }
+           }
+       }
 
         Row(
             modifier = Modifier

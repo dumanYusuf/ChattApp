@@ -1,6 +1,5 @@
 package com.dumanyusuf.chattapp.data.repo
 
-import android.util.Log
 import com.dumanyusuf.chattapp.domain.model.Chats
 import com.dumanyusuf.chattapp.domain.model.Message
 import com.dumanyusuf.chattapp.domain.model.Users
@@ -11,7 +10,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

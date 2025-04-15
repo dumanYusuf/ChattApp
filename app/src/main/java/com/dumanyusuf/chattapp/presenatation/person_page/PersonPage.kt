@@ -24,6 +24,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.dumanyusuf.chattapp.R
 import com.dumanyusuf.chattapp.Screan
+import com.dumanyusuf.chattapp.domain.model.Users
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

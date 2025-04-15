@@ -7,5 +7,6 @@ sealed class  Screan(val route:String){
     object HomePage:Screan("home_page")
     object PersonPage:Screan("person_page")
     object ChattPage:Screan("chatt_page")
+    object Splash:Screan("splash_screan")
 
 }

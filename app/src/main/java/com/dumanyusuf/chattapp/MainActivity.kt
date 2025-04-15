@@ -55,8 +55,9 @@ fun PageController() {
 
     val curentUser=FirebaseAuth.getInstance().currentUser
 
+
     val controller= rememberNavController()
-    NavHost(navController = controller, startDestination = if (curentUser!=null)Screan.HomePage.route else Screan.SignUpPage.route) {
+    NavHost(navController = controller, startDestination = if (curentUser!=null) Screan.HomePage.route else Screan.SignUpPage.route) {
 
         composable(Screan.SignUpPage.route){
             SignupPage(nextToLogin = {controller.navigate(Screan.SignInPage.route)}, navController = controller)
