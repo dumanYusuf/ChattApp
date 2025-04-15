@@ -59,13 +59,4 @@ class HomeViewModel @Inject constructor(
         return FirebaseAuth.getInstance().currentUser?.uid ?: ""
     }
 
-
-
-
-    fun logOut(){
-        logOutUseCase.LogOut()
-        Log.e("basarılı","cıkıs işlemi basarılı")
-    }
-
-
 }

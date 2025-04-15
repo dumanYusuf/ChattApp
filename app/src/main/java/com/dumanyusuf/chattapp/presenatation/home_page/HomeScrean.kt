@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -62,13 +63,6 @@ fun HomeScrean(
             Text(
                 fontSize = 24.sp,
                 text = stringResource(R.string.chattApp))
-
-            IconButton(onClick = {
-                viewModel.logOut()
-                navController.navigate(Screan.SignInPage.route)
-            }) {
-                Icon(painter = painterResource(R.drawable.logout), contentDescription = "Çıkış")
-            }
 
             IconButton(onClick = {
                 navController.navigate(Screan.PersonPage.route)
@@ -120,6 +114,7 @@ fun UserItem(user: Users, onClick: () -> Unit) {
         GlideImage(
             model = user.userProfilPage,
             contentDescription = "Profil Fotoğrafı",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(70.dp)
                 .clip(CircleShape)

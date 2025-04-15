@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.dumanyusuf.chattapp.R
+import com.dumanyusuf.chattapp.Screan
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -60,14 +61,30 @@ fun PersonPage(
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween 
         ) {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(painter = painterResource(R.drawable.back), contentDescription = "Geri")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(painter = painterResource(R.drawable.back), contentDescription = "Geri")
+                }
+                Text(text = stringResource(R.string.profil), modifier = Modifier.padding())
             }
-            Text(text = stringResource(R.string.profil), modifier = Modifier.padding(start = 16.dp))
+
+            IconButton(onClick = {
+                viewModel.logOut()
+                navController.navigate(Screan.SignInPage.route)
+            }) {
+                Icon(painter = painterResource(R.drawable.logout), contentDescription = "Çıkış")
+            }
         }
+
+
 
         // İçerik
         Column(
