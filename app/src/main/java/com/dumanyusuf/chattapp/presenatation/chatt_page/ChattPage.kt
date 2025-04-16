@@ -1,5 +1,6 @@
 package com.dumanyusuf.chattapp.presenatation.chatt_page
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -165,6 +166,7 @@ fun ChattPage(
                         val msg = Message(
                             senderId = viewModel.getCurentUserId(),
                             text = message,
+                           receiverId = users.userId,
                             timestamp = Timestamp.now()
                         )
                         viewModel.sendMesasage(chatId!!, msg)

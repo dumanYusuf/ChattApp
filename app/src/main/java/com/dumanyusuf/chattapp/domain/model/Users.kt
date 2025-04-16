@@ -7,7 +7,8 @@ data class Users(
     val userName:String="",
     val userMail:String="",
     val userProfilPage:String="",
-    val creatAt:Timestamp= Timestamp.now()
+    val creatAt:Timestamp= Timestamp.now(),
+    val fcmToken:String=""
 ){
     fun toMap():Map<String,Any>{
         return mapOf(
@@ -15,7 +16,8 @@ data class Users(
             "userName" to userName,
             "userMail" to userMail,
             "userProfilPage" to userProfilPage,
-            "creatAt" to creatAt
+            "creatAt" to creatAt,
+            "fcmToken" to fcmToken
         )
     }
 }

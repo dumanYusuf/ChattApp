@@ -1,6 +1,7 @@
 package com.dumanyusuf.chattapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +25,7 @@ import com.dumanyusuf.chattapp.presenatation.sign_up.SiginPage
 import com.dumanyusuf.chattapp.presenatation.sign_up.SignupPage
 import com.dumanyusuf.chattapp.util.ui.theme.ChattAppTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLDecoder
@@ -34,6 +36,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {task->
+           if (task.isSuccessful){
+               val token=task.result
+               Log.e("token","$token")
+           }
+        }
+
+
         setContent {
             ChattAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
