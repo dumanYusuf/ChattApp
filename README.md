@@ -52,6 +52,9 @@ Uygulama, karanlık ve aydınlık modları destekler. Seçilen tema bazında soh
 Firebase Cloud Functions (Push Bildirimleri için)
 Bir mesaj gönderildiğinde, Firebase Cloud Function, Firestore'daki yeni mesajları dinler ve alıcıya, göndericinin kullanıcı adı başlık olarak ve mesaj metni içerik olarak gönderilecek şekilde push bildirimi gönderir.
 
-![image alt](https://github.com/dumanYusuf/ChattApp/blob/master/chatt1.png?raw=true)
-![image alt](https://github.com/dumanYusuf/ChattApp/blob/master/chatt2png.png?raw=true)
+<p align="center">
+  <img src="https://github.com/dumanYusuf/ChattApp/blob/master/chatt1.png?raw=true" alt="chatt1" width="250" />
+  <img src="https://github.com/dumanYusuf/ChattApp/blob/master/chatt2png.png?raw=true" alt="chatt2" width="250" />
+  <img src="https://github.com/dumanYusuf/ChattApp/blob/master/chatt3.jpeg?raw=true" alt="chatt3" width="250" />
+</p>
 
