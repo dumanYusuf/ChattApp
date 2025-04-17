@@ -53,4 +53,5 @@ Firebase Cloud Functions (Push Bildirimleri için)
 Bir mesaj gönderildiğinde, Firebase Cloud Function, Firestore'daki yeni mesajları dinler ve alıcıya, göndericinin kullanıcı adı başlık olarak ve mesaj metni içerik olarak gönderilecek şekilde push bildirimi gönderir.
 
 ![image alt](https://github.com/dumanYusuf/ChattApp/blob/master/chatt1.png?raw=true)
+![image alt](https://github.com/dumanYusuf/ChattApp/blob/master/chatt2png.png?raw=true)
 
