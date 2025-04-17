@@ -1,5 +1,6 @@
 package com.dumanyusuf.chattapp.presenatation.sign_up
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dumanyusuf.chattapp.domain.use_case.SignUpUseCase
@@ -109,7 +110,10 @@ class SignupViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
             val result = signUpUseCase.signUpUser(userName, userMail, password)
             when (result) {
                 is Resource.Success -> {
-                    _signupState.value = SignupState(isSuccess = true,)
+                    _signupState.value = SignupState(
+                        isSuccess = true,
+                    )
+                    Log.e("user","${result.data}")
                 }
                 is Resource.Loading -> {
                     _signupState.value = SignupState(isLoading = true)

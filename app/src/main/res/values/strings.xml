@@ -12,4 +12,5 @@
     <string name="chattApp">Sohbet</string>
     <string name="profil">Profil</string>
     <string name="edit_profil">Profili Düzenle</string>
+    <string name="write">Mesajınızı Yazın</string>
 </resources>

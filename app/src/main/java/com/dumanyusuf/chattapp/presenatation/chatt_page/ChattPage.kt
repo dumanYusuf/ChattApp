@@ -13,17 +13,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dumanyusuf.chattapp.R
-import com.dumanyusuf.chattapp.domain.model.Chats
 import com.dumanyusuf.chattapp.domain.model.Message
 import com.dumanyusuf.chattapp.domain.model.Users
+import com.dumanyusuf.chattapp.util.ui.theme.MyMessageDark
+import com.dumanyusuf.chattapp.util.ui.theme.MyMessageLight
 import com.google.firebase.Timestamp
 
 @Composable
@@ -61,14 +62,14 @@ fun ChattPage(
         ) {
             IconButton(
                 onClick = {
-                navController.popBackStack()
-            }) {
+                    navController.popBackStack()
+                }) {
                 Icon(
                     painter = painterResource(R.drawable.back),
                     contentDescription = "Geri"
                 )
             }
-            Row (verticalAlignment = Alignment.CenterVertically){
+            Row(verticalAlignment = Alignment.CenterVertically){
                 Text(
                     text = users.userName,
                     fontSize = 20.sp,
@@ -78,51 +79,53 @@ fun ChattPage(
         }
 
 
-       if (chatListState.value.loading){
-           Box(
-               modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-               CircularProgressIndicator(
-                   color = Color.Red
-               )
-           }
-       }
+        if (chatListState.value.loading){
+            Box(
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                CircularProgressIndicator(
+                    color = Color.Red
+                )
+            }
+        }
         else{
-           LazyColumn(
-               state = listState,
-               modifier = Modifier
-                   .weight(1f)
-                   .padding(horizontal = 8.dp)
-           ) {
-               items(chatListState.value.chatList) { msg ->
-                   val isCurrentUser = msg.senderId == viewModel.getCurentUserId()
-                   Row(
-                       modifier = Modifier
-                           .fillMaxWidth()
-                           .padding(vertical = 4.dp),
-                       horizontalArrangement = if (isCurrentUser) Arrangement.End else Arrangement.Start
-                   ) {
-                       Box(
-                           modifier = Modifier
-                               .background(
-                                   if (isCurrentUser) Color(0xFFD0F0C0) else Color(0xFFF0F0F0),
-                                   shape = RoundedCornerShape(12.dp)
-                               )
-                               .padding(12.dp),
-                           contentAlignment = Alignment.BottomEnd
-                       ) {
-                           Column {
-                               Text(text = msg.text, fontSize = 16.sp)
-                               Text(
-                                   modifier = Modifier.align(Alignment.End),
-                                   fontSize = 12.sp,
-                                   color = Color.Gray,
-                                   text = viewModel.formatMessageTime(msg.timestamp))
-                           }
-                       }
-                   }
-               }
-           }
-       }
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 8.dp)
+            ) {
+                items(chatListState.value.chatList) { msg ->
+                    val isCurrentUser = msg.senderId == viewModel.getCurentUserId()
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        horizontalArrangement = if (isCurrentUser) Arrangement.End else Arrangement.Start
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    if (isCurrentUser) MyMessageDark else MyMessageLight,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                                .padding(12.dp),
+                            contentAlignment = Alignment.BottomEnd
+                        ) {
+                            Column {
+                                Text(
+                                    color = Color.White,
+                                    text = msg.text, fontSize = 16.sp)
+                                Text(
+                                    modifier = Modifier.align(Alignment.End),
+                                    fontSize = 12.sp,
+                                    color =MaterialTheme.colorScheme.onBackground,
+                                    text = viewModel.formatMessageTime(msg.timestamp))
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         Row(
             modifier = Modifier
@@ -144,7 +147,7 @@ fun ChattPage(
                     ),
                 placeholder = {
                     Text(
-                        text = "Mesajınızı yazın...",
+                        text = stringResource(R.string.write),
                         color = Color.Gray,
                         style = TextStyle(fontSize = 14.sp)
                     )
@@ -166,9 +169,10 @@ fun ChattPage(
                         val msg = Message(
                             senderId = viewModel.getCurentUserId(),
                             text = message,
-                           receiverId = users.userId,
+                            receiverId = users.userId,
                             timestamp = Timestamp.now()
                         )
+                        Log.d("ChatPage", "Message: $message, ChatId: $chatId")
                         viewModel.sendMesasage(chatId!!, msg)
                         message = ""
                     }
@@ -181,5 +185,6 @@ fun ChattPage(
             }
 
         }
-        }
     }
+}
+

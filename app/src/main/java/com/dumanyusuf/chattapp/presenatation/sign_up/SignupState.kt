@@ -7,5 +7,4 @@ data class SignupState(
     val isSuccess:Boolean=false,
     val isLoading:Boolean=false,
     val error:String="",
-    //val user: Users?=null
 )

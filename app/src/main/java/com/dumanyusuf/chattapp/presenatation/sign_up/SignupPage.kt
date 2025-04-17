@@ -53,6 +53,7 @@ fun SignupPage(
 
     val stateRegister = viewModel.signupState.collectAsState().value
 
+
     val emailError = viewModel.emailError.collectAsState()
     val usernameError = viewModel.usernameError.collectAsState()
     val passwordError = viewModel.passwordError.collectAsState()

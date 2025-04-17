@@ -12,4 +12,5 @@
     <string name="chattApp">ChattApp</string>
     <string name="profil">Profile</string>
     <string name="edit_profil">Edit Profile</string>
+    <string name="write">Write your message</string>
 </resources>
