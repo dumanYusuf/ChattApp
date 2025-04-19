@@ -23,12 +23,14 @@ import com.dumanyusuf.chattapp.presenatation.home_page.HomeScrean
 import com.dumanyusuf.chattapp.presenatation.person_page.PersonPage
 import com.dumanyusuf.chattapp.presenatation.sign_up.SiginPage
 import com.dumanyusuf.chattapp.presenatation.sign_up.SignupPage
+import com.dumanyusuf.chattapp.presenatation.splash_screen.SplashScreen
 import com.dumanyusuf.chattapp.util.ui.theme.ChattAppTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLDecoder
+import java.net.URLEncoder
 
 
 @AndroidEntryPoint
@@ -44,7 +46,6 @@ class MainActivity : ComponentActivity() {
                Log.e("token","$token")
            }
         }
-
 
         setContent {
             ChattAppTheme {
@@ -69,7 +70,13 @@ fun PageController() {
 
 
     val controller= rememberNavController()
-    NavHost(navController = controller, startDestination = if (curentUser!=null) Screan.HomePage.route else Screan.SignUpPage.route) {
+    NavHost(navController = controller, startDestination = Screan.SplashScrean.route) {
+
+
+
+        composable(Screan.SplashScrean.route){
+            SplashScreen(controller)
+        }
 
         composable(Screan.SignUpPage.route){
             SignupPage(nextToLogin = {controller.navigate(Screan.SignInPage.route)}, navController = controller)
@@ -77,9 +84,17 @@ fun PageController() {
         composable(Screan.SignInPage.route){
             SiginPage(navController = controller)
         }
-        composable(Screan.HomePage.route){
-            HomeScrean(navController = controller)
+        composable(route = Screan.HomePage.route+"/{users}",
+            arguments = listOf(
+                navArgument("users"){type= NavType.StringType}
+            )
+        ) {
+            val jsonUser=it.arguments?.getString("users")
+            val decodedJsonUser = URLDecoder.decode(jsonUser, "UTF-8")
+            val user=Gson().fromJson(decodedJsonUser,Users::class.java)
+            HomeScrean(navController = controller, users = user)
         }
+
         composable(route = Screan.PersonPage.route) {
             PersonPage(navController = controller)
         }

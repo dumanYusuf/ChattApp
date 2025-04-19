@@ -13,11 +13,9 @@ import com.google.firebase.messaging.RemoteMessage
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class MyFirebaseMessagingService:FirebaseMessagingService() {
 
-
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-
-        Log.e("🔥FCM", "✅ Mesaj alındı: ${message.data}")
+            Log.e("🔥FCM", "✅ Mesaj alındı: ${message.data}")
 
         message.notification?.let {
             Log.d("🔥FCM", "📩 Bildirim başlık: ${it.title}, içerik: ${it.body}")

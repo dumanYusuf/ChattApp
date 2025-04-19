@@ -6,6 +6,7 @@ import com.dumanyusuf.chattapp.domain.repo.AuthRepo
 import com.dumanyusuf.chattapp.util.Resource
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
@@ -90,4 +91,6 @@ class AuthRepoImpl @Inject constructor(
             e.printStackTrace()
         }
     }
+
 }
+

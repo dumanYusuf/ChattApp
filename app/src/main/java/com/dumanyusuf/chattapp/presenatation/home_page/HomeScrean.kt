@@ -44,6 +44,7 @@ import java.net.URLEncoder
 fun HomeScrean(
     viewModel: HomeViewModel = hiltViewModel(),
     navController: NavController,
+    users: Users
 ) {
     val state = viewModel.stateUsers.value
 
@@ -70,6 +71,10 @@ fun HomeScrean(
             }) {
                 Icon(painter = painterResource(R.drawable.person), contentDescription = "Profil")
             }
+
+
+            Text(text=users.userName)
+
 
         }
 

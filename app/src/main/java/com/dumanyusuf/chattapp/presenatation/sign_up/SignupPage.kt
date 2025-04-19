@@ -61,7 +61,10 @@ fun SignupPage(
 
     LaunchedEffect(stateRegister) {
         if (stateRegister.isSuccess) {
-            navController.navigate(Screan.HomePage.route) {
+            val user=Users(userId = "",userName,userMail, userProfilPage = "", Timestamp.now())
+            val usersObject = Gson().toJson(user)
+            val encodedUsersObject = URLEncoder.encode(usersObject, "UTF-8")
+            navController.navigate(Screan.HomePage.route+"/${encodedUsersObject}") {
                 popUpTo(Screan.SignUpPage.route){inclusive=true}
             }
         }

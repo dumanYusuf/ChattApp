@@ -118,24 +118,50 @@ fun PersonPage(
                     )
                 }
 
-                IconButton(
-                    onClick = {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                        } else {
-                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        }
-                    },
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .size(42.dp)
-                        .padding(8.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.camera),
-                        contentDescription = "Fotoğraf Yükle"
-                    )
-                }
+
+                Row (modifier = Modifier.padding(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
+
+                   Box{
+                       IconButton(
+                           onClick = {
+                               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                   permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                               } else {
+                                   permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                               }
+                           },
+                           modifier = Modifier
+                               .align(Alignment.BottomEnd)
+                               .size(42.dp)
+                               .padding(8.dp)
+                       ) {
+                           Icon(
+                               painter = painterResource(R.drawable.gallery),
+                               contentDescription = "Fotoğraf Yükle"
+                           )
+                       }
+                   }
+
+                    Spacer(modifier = Modifier.padding(10.dp))
+                   Box {
+                       IconButton(
+                           onClick = {
+
+                           },
+                           modifier = Modifier
+                               .align(Alignment.BottomEnd)
+                               .size(42.dp)
+                               .padding(8.dp)
+                       ) {
+                           Icon(
+                               painter = painterResource(R.drawable.camera),
+                               contentDescription = "Fotoğraf Yükle"
+                           )
+                       }
+                   }
+                   }
+
+
             }
 
             Text(text = "userName", style = MaterialTheme.typography.headlineMedium)
